@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import './App.css';
 
 // Import images from the src/assets folder
@@ -25,38 +25,46 @@ function App() {
     const defaultItemFlex = "0 1 20px";
     const hoverItemFlex = "1 1 400px";
 
+    // Update gallery items flex style based on hover state
     const updateGalleryItems = () => {
       galleryItems.forEach((item) => {
-        let flex = defaultItemFlex;
-        if (item.isHovered) {
-          flex = hoverItemFlex;
-        }
-        item.style.flex = flex;
+        const isHovered = item.getAttribute('data-hovered') === 'true';
+        item.style.flex = isHovered ? hoverItemFlex : defaultItemFlex;
       });
     };
 
-    galleryItems[0].isHovered = true;
+    // Set initial hover state for the first item
+    galleryItems[0].setAttribute('data-hovered', 'true');
     updateGalleryItems();
 
-    galleryItems.forEach((item) => {
-      item.addEventListener("mouseenter", () => {
-        galleryItems.forEach((otherItem) => {
-          otherItem.isHovered = otherItem === item;
-        });
-        updateGalleryItems();
+    // Event handler for mouse enter
+    const handleMouseEnter = (item) => () => {
+      galleryItems.forEach((otherItem) => {
+        otherItem.setAttribute('data-hovered', otherItem === item ? 'true' : 'false');
       });
+      updateGalleryItems();
+    };
+
+    // Attach mouse enter event listeners
+    galleryItems.forEach((item) => {
+      item.addEventListener("mouseenter", handleMouseEnter(item));
     });
 
-    galleryContainer.addEventListener("mousemove", (e) => {
-      indicator.style.left = `${e.clientX - galleryContainer.getBoundingClientRect().left}px`;
-    });
+    // Event handler for mouse move
+    const handleMouseMove = (e) => {
+      const rect = galleryContainer.getBoundingClientRect();
+      indicator.style.left = `${e.clientX - rect.left}px`;
+    };
+
+    // Attach mouse move event listener
+    galleryContainer.addEventListener("mousemove", handleMouseMove);
 
     // Cleanup event listeners on component unmount
     return () => {
       galleryItems.forEach((item) => {
-        item.removeEventListener("mouseenter", () => {});
+        item.removeEventListener("mouseenter", handleMouseEnter(item));
       });
-      galleryContainer.removeEventListener("mousemove", () => {});
+      galleryContainer.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
@@ -82,4 +90,3 @@ function App() {
 }
 
 export default App;
-
