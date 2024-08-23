@@ -1,7 +1,5 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './App.css';
-
-// Import images from the src/assets folder
 import bakamitaiImg from './assets/bakamitai.jpg';
 import brokenImg from './assets/broken.jpeg';
 import chetImg from './assets/chet.jpg';
@@ -12,8 +10,34 @@ import hotelpoolsImg from './assets/hotelpools.jpg';
 import iJustDiedImg from './assets/I-Just-Died-In-Your-Arms.jpg';
 import rhythmDancerImg from './assets/rhythm is a dancer.jpeg';
 import sawyerImg from './assets/sawyer.jpeg';
+import TeamRoster from './Team_Roster.json';
+import { useTable } from 'react-table';
 
 function App() {
+  // Table data and columns definition
+  const data = React.useMemo(() => TeamRoster, []);
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "id",
+      },
+      {
+        Header: "Name",
+        accessor: "first_name",
+      },
+      {
+        Header: "Score",
+        accessor: "score",
+      },
+    ],
+    []
+  );
+
+  // Initialize table
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+
+  // Gallery and indicator refs
   const galleryContainerRef = useRef(null);
   const indicatorRef = useRef(null);
 
@@ -69,8 +93,36 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="App">
       <div className="container">
+        {/* Table rendering */}
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {/* Gallery rendering */}
         <div ref={galleryContainerRef} className="gallery">
           <div className="gallery-item"><img src={bakamitaiImg} alt="Baka Mitai" /></div>
           <div className="gallery-item"><img src={brokenImg} alt="Broken" /></div>
