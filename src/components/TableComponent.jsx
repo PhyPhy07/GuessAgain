@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-function TableComponent({ data, handleDelete }) { // Receive data and handleDelete as props
+function TableComponent({ data, handleDelete, handleDecrement, handleIncrement }) { // Receive data and handleDelete as props
   const columns = React.useMemo(
     () => [
       {
@@ -13,13 +13,20 @@ function TableComponent({ data, handleDelete }) { // Receive data and handleDele
         Header: "Player",
         accessor: "Player",
       },
-      {
-        Header: "Score",
-        accessor: "Score",
-      },
+   {
+  Header: "Score",
+  accessor: "Score",
+  Cell: ({ value, row }) => ( // Access the row object
+    <div> 
+      {value}
+      <button onClick={() => handleDecrement(row.original.Player)}>-</button>
+      <button onClick={() => handleIncrement(row.original.Player)}>+</button>
+    </div>
+  ),
+},
      {
-  Header: "Actions",
-  accessor: "Actions",
+  Header: "Modify",
+  accessor: "Modify",
   Cell: ({ row }) => ( // Access the row object
     <button onClick={() => handleDelete(row.original.Player)}>Delete</button>
   ),

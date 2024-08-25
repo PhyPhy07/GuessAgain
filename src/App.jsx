@@ -67,9 +67,73 @@ const handleDelete = async (Player) => {
     fetchUsers(); 
   }
 };
+const handleDecrement = async (Player) => {
+  // Fetch the current score
+  const { data: userData, error: userError } = await supabase
+    .from('Team_Roster')
+    .select('Score')
+    .eq('Player', Player);
+
+  if (userError) {
+    console.error('Error fetching user: ', userError);
+    return;
+  }
+
+  // Check if the score is already zero
+  if (userData[0].Score === 0) {
+    console.log('Score cannot go below zero');
+    return;
+  }
+
+  // Decrement the score
+  const newScore = userData[0].Score - 1;
+
+  // Update the score in the database
+  const { data, error } = await supabase
+    .from('Team_Roster')
+    .update({ Score: newScore })
+    .eq('Player', Player);
+
+  if (error) {
+    console.error('Error decrementing score: ', error);
+  } else {
+    // Update the local state
+    fetchUsers();
+  }
+};
+
+const handleIncrement = async (Player) => {
+  // Fetch the current score
+  const { data: userData, error: userError } = await supabase
+    .from('Team_Roster')
+    .select('Score')
+    .eq('Player', Player);
+
+  if (userError) {
+    console.error('Error fetching user: ', userError);
+    return;
+  }
+
+  // Increment the score
+  const newScore = userData[0].Score + 1;
+
+  // Update the score in the database
+  const { data, error } = await supabase
+    .from('Team_Roster')
+    .update({ Score: newScore })
+    .eq('Player', Player);
+
+  if (error) {
+    console.error('Error incrementing score: ', error);
+  } else {
+    // Update the local state
+    fetchUsers();
+  }
+};
+
   return (
     <div className="App">
-      <Table data={users} handleDelete={handleDelete}/> 
+     <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
       <form onSubmit={createUsers}>     
         <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
         <button type="submit">Add Player</button>
