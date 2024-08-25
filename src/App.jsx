@@ -144,16 +144,23 @@ const login = async () => {
     console.log('Login successful');
   }
 }  
- 
+const logout = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Error logging out: ', error);
+  } else {
+    console.log('Logout successful');
+  } 
+}
   return (
     <div className="App">
      <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
       <form onSubmit={createUsers}>     
         <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
         <button type="submit">Add Player</button>
-       
       </form>
        <button onClick={login}>Login</button>
+       <button onClick={logout}>Logout</button>
       <Gallery /> 
     </div>
   );
