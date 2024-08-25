@@ -17,11 +17,11 @@ function TableComponent({ data }) { // Receive data as a prop
       },
       {
         Header: "Player",
-        accessor: "Player:",
+        accessor: "Player",
       },
       {
         Header: "Score",
-        accessor: "Score:",
+        accessor: "Score",
       },
     ],
     []
