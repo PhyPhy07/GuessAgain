@@ -1,14 +1,8 @@
-
-
 // TableComponent.jsx
 import React from 'react';
 import { useTable } from 'react-table';
 
-
-
-
-
-function TableComponent({ data }) { // Receive data as a prop
+function TableComponent({ data, handleDelete }) { // Receive data and handleDelete as props
   const columns = React.useMemo(
     () => [
       {
@@ -23,6 +17,13 @@ function TableComponent({ data }) { // Receive data as a prop
         Header: "Score",
         accessor: "Score",
       },
+     {
+  Header: "Actions",
+  accessor: "Actions",
+  Cell: ({ row }) => ( // Access the row object
+    <button onClick={() => handleDelete(row.original.Player)}>Delete</button>
+  ),
+},
     ],
     []
   );
@@ -49,7 +50,7 @@ function TableComponent({ data }) { // Receive data as a prop
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                 ))}
               </tr>
             );

@@ -55,9 +55,21 @@ async function createUsers(event) {
   }
 }
 
+const handleDelete = async (Player) => {
+  const { error } = await supabase
+    .from('Team_Roster')
+    .delete()
+    .eq('Player', Player);
+
+  if (error) {
+    console.error('Error deleting row: ', error);
+  } else {
+    fetchUsers(); 
+  }
+};
   return (
     <div className="App">
-      <Table data={users} /> 
+      <Table data={users} handleDelete={handleDelete}/> 
       <form onSubmit={createUsers}>     
         <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
         <button type="submit">Add Player</button>
