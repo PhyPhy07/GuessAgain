@@ -4,12 +4,11 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-import TeamRoster from './Team_Roster'; // if both files are in the same directory
 
 
 
-const TableComponent = () => {
-  const data = React.useMemo(() => TeamRoster, []);
+
+function TableComponent({ data }) { // Receive data as a prop
   const columns = React.useMemo(
     () => [
       {
@@ -17,12 +16,12 @@ const TableComponent = () => {
         accessor: "id",
       },
       {
-        Header: "Name",
-        accessor: "first_name",
+        Header: "Player",
+        accessor: "Player:",
       },
       {
         Header: "Score",
-        accessor: "score",
+        accessor: "Score:",
       },
     ],
     []
