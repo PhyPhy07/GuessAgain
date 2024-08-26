@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Drawer as AntDrawer } from 'antd';
 import { supabase } from '../createClient';
 
-const LoginDrawer = () => {
+const LoginDrawer = ({ user, onChange, onSubmit }) => {
   const [open, setOpen] = useState(false);
 
   const login = async () => {
@@ -35,10 +35,14 @@ const LoginDrawer = () => {
 
   return (
     <>
- <Button type="primary" onClick={showDrawer} style={{ position: 'absolute', top: 0, right: 0 }}>
+      <Button type="primary" onClick={showDrawer} style={{ position: 'absolute', top: 0, right: 0 }}>
         Click ME!
       </Button>
       <AntDrawer title="Basic Drawer" onClose={onClose} visible={open}>
+        <form onSubmit={onSubmit}>     
+          <input type="text" placeholder="Add Player" name='Player' value={user.Player} onChange={onChange} />
+          <button type="submit">Add Player</button>
+        </form> 
         <button onClick={login}>Login</button>
         <button onClick={logout}>Logout</button>
       </AntDrawer>
