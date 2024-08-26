@@ -18,9 +18,11 @@ function TableComponent({ data, handleDelete, handleDecrement, handleIncrement }
   accessor: "Score",
   Cell: ({ value, row }) => ( // Access the row object
     <div> 
-      {value}
-      <button onClick={() => handleDecrement(row.original.Player)}>-</button>
-      <button onClick={() => handleIncrement(row.original.Player)}>+</button>
+     {value}
+
+<button className="decrement-button" onClick={() => handleDecrement(row.original.Player)}>-</button>
+
+<button className="increment-button" onClick={() => handleIncrement(row.original.Player)}>+</button>
     </div>
   ),
 },

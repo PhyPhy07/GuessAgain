@@ -34,10 +34,10 @@ html, body {
   justify-content: center;
   align-items: center;
   flex: 0 2 30px;
-  height: 180px;
+  height: 200px;
   margin: 1px;
   background:none;
-  overflow: auto;
+  overflow: hidden;
   transition: flex 1s cubic-bezier(0.075, 0.82, 0.165, 1)
   ;
   padding: 0;
@@ -101,4 +101,11 @@ tbody td:hover:before {
   bottom: -9999px;
   background-color: rgba(255, 255, 255, 0.2);
   z-index: -1;
+}
+.decrement-button {
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.increment-button {
+  margin-left: 10px; /* Adjust as needed */
 }
