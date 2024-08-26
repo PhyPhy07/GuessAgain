@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/auth-js": "^2.64.4",
     "@supabase/supabase-js": "^2.45.2",
+    "antd": "^5.20.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-table": "^7.8.0"

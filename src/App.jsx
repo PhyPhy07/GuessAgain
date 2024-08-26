@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Table from './components/TableComponent'; // Import your Table component
 import Gallery from './components/GalleryComponent'; // Import your Gallery component
  import { supabase } from './createClient'; // Adjust the path as needed
+import Drawer from './components/LoginDrawer';
 
-// Rest of your code...
+
 
 function App() {
 
@@ -134,24 +135,7 @@ const handleIncrement = async (Player) => {
   }
 };
 
-const login = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'github'
-  })
-  if (error) {
-    console.error('Error logging in: ', error);
-  } else {
-    console.log('Login successful');
-  }
-}  
-const logout = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error('Error logging out: ', error);
-  } else {
-    console.log('Logout successful');
-  } 
-}
+
   return (
     <div className="App">
      <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
@@ -159,8 +143,8 @@ const logout = async () => {
         <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
         <button type="submit">Add Player</button>
       </form>
-       <button onClick={login}>Login</button>
-       <button onClick={logout}>Logout</button>
+    
+       <Drawer />
       <Gallery /> 
     </div>
   );
