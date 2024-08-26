@@ -22,11 +22,11 @@ html, body {
 .gallery {
   order: 1;
   display: flex;
-  width: 120%;
-  justify-content: center; /* Center items horizontally */
+  width: 100%;
+  justify-content: left; /* Align items to the start */
   overflow: auto;
-  margin-top:-500px;
-  padding: 150px;
+  margin-top: -500px;
+  padding: 150px 150px 150px 0; /* top right bottom left */
 }
 
 .gallery-item {
@@ -35,10 +35,12 @@ html, body {
   align-items: center;
   flex: 0 2 30px;
   height: 180px;
-  margin: 2px;
-  background: pink;
+  margin: 1px;
+  background:none;
   overflow: auto;
-  transition: flex 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: flex 1s cubic-bezier(0.075, 0.82, 0.165, 1)
+  ;
+  padding: 0;
 }
 
 .gallery-item img {

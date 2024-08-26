@@ -11,10 +11,11 @@ import hotelpoolsImg from '../images/hotelpools.jpg';
 import iJustDiedImg from '../images/I-Just-Died-In-Your-Arms.jpg';
 import rhythmDancerImg from '../images/rhythm is a dancer.jpeg';
 import sawyerImg from '../images/sawyer.jpeg';
-import purityImg from '../images/purity.jpg';
+import purityImg from '../images/purity.jpeg';
 import theflaming from '../images/theflaming.jpg';
 import kiss from '../images/kiss.jpg';
 import pinkpony from '../images/pinkpony.jpg';
+import dj from '../images/dj.png';
 
 const GalleryComponent = () => {
   const galleryContainerRef = useRef(null);
@@ -67,6 +68,7 @@ const GalleryComponent = () => {
   return (
     <div className="gallery-container">
       <div ref={galleryContainerRef} className="gallery">
+      <div className="gallery-item"><img src={dj} alt="DJ" /></div>
         <div className="gallery-item"><img src={brokenImg} alt="Broken" /></div>
         <div className="gallery-item"><img src={chetImg} alt="Chet" /></div>
         <div className="gallery-item"><img src={evansBlueImg} alt="Evans Blue" /></div>
@@ -80,6 +82,7 @@ const GalleryComponent = () => {
         <div className="gallery-item"><img src={theflaming} alt="The Flaming" /></div>
         <div className="gallery-item"><img src={kiss} alt="Kiss" /></div>
         <div className="gallery-item"><img src={pinkpony} alt="Pink Pony" /></div>
+     <div className="gallery-item"><img src={dj} alt="DJ" /></div>
       </div>
       <div ref={indicatorRef} className="indicator"></div>
     </div>
