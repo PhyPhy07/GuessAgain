@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Table from './components/TableComponent'; // Import your Table component
 import Gallery from './components/GalleryComponent'; // Import your Gallery component
-import { supabase } from './createClient'; 
+ import { supabase } from './createClient'; // Adjust the path as needed
+import Drawer from './components/LoginDrawer';
+
+
 
 function App() {
+
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({
     Player: '', Score: 0
@@ -131,6 +135,7 @@ const handleIncrement = async (Player) => {
   }
 };
 
+
   return (
     <div className="App">
      <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
@@ -138,6 +143,8 @@ const handleIncrement = async (Player) => {
         <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
         <button type="submit">Add Player</button>
       </form>
+    
+       <Drawer />
       <Gallery /> 
     </div>
   );
