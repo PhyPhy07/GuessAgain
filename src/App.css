@@ -22,11 +22,11 @@ html, body {
 .gallery {
   order: 1;
   display: flex;
+  width: 120%;
   justify-content: center; /* Center items horizontally */
-  width: 100%;
   overflow: auto;
   margin-top:-500px;
-  padding: 100px;
+  padding: 150px;
 }
 
 .gallery-item {
@@ -36,7 +36,7 @@ html, body {
   flex: 0 2 30px;
   height: 180px;
   margin: 2px;
-  background: #0f0f0f;
+  background: pink;
   overflow: auto;
   transition: flex 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -53,7 +53,7 @@ html, body {
   position: absolute;
   top: 70%;
   left: 50%;
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: scroll;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -61,7 +61,7 @@ html, body {
 }
 
 table {
-  width: 800px;
+  width: 700px;
   height: 800px;
   border-collapse: collapse;
   overflow: hidden;
