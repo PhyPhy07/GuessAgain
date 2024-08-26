@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from './components/TableComponent'; // Import your Table component
 import Gallery from './components/GalleryComponent'; // Import your Gallery component
  import { supabase } from './createClient'; // Adjust the path as needed
-import Drawer from './components/LoginDrawer';
+import LoginDrawer from './components/LoginDrawer';
 
 
 
@@ -139,12 +139,7 @@ const handleIncrement = async (Player) => {
   return (
     <div className="App">
      <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
-      <form onSubmit={createUsers}>     
-        <input type="text" placeholder="Add Player" name='Player' onChange={handleChange} />
-        <button type="submit">Add Player</button>
-      </form>
-    
-       <Drawer />
+      <LoginDrawer user={user} onChange={handleChange} onSubmit={createUsers} />
       <Gallery /> 
     </div>
   );
