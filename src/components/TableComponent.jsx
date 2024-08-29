@@ -13,16 +13,18 @@ function TableComponent({ data, handleDelete, handleDecrement, handleIncrement, 
         Header: "Player",
         accessor: "Player",
       },
-   {
+{
   Header: "Score",
   accessor: "Score",
   Cell: ({ value, row }) => ( // Access the row object
     <div> 
-     {value}
-
-<button className="decrement-button" onClick={() => handleDecrement(row.original.Player)}>-</button>
-
-<button className="increment-button" onClick={() => handleIncrement(row.original.Player)}>+</button>
+      {value}
+      {isLoggedIn && (
+        <>
+          <button className="decrement-button" onClick={() => handleDecrement(row.original.Player)}>-</button>
+          <button className="increment-button" onClick={() => handleIncrement(row.original.Player)}>+</button>
+        </>
+      )}
     </div>
   ),
 },
