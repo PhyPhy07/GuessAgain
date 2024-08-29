@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-function TableComponent({ data, handleDelete, handleDecrement, handleIncrement }) { // Receive data and handleDelete as props
+function TableComponent({ data, handleDelete, handleDecrement, handleIncrement, isLoggedIn }) { // Receive data and handleDelete as props
   const columns = React.useMemo(
     () => [
       {
@@ -26,16 +26,16 @@ function TableComponent({ data, handleDelete, handleDecrement, handleIncrement }
     </div>
   ),
 },
-     {
+...(isLoggedIn ? [{
   Header: "Modify",
   accessor: "Modify",
   Cell: ({ row }) => ( // Access the row object
     <button onClick={() => handleDelete(row.original.Player)}>Delete</button>
   ),
-},
-    ],
-    []
-  );
+}] : []),
+],
+[isLoggedIn] // Add isLoggedIn to the dependency array
+);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
 

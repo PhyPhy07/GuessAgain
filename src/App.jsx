@@ -157,6 +157,7 @@ function App() {
         handleDelete={handleDelete}
         handleIncrement={(Player) => handleScoreChange(Player, true)}
         handleDecrement={(Player) => handleScoreChange(Player, false)}
+        isLoggedIn={!!user2}
       />
       <LoginDrawer
         user={user}
