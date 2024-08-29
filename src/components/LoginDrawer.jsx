@@ -1,29 +1,20 @@
 import React, { useState } from 'react';
 import { Button, Drawer as AntDrawer } from 'antd';
-import { supabase } from '../createClient';
 
-const LoginDrawer = ({ user, onChange, onSubmit }) => {
+const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }) => {
   const [open, setOpen] = useState(false);
 
-  const login = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github'
-    })
-    if (error) {
-      console.error('Error logging in: ', error);
-    } else {
-      console.log('Login successful');
-    }
-  }  
+  const handleLoginClick = (event) => {
+    event.preventDefault();
+    console.log('Login button clicked');
+    onLogin();
+  };
 
-  const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error logging out: ', error);
-    } else {
-      console.log('Logout successful');
-    } 
-  }
+  const handleLogoutClick = (event) => {
+    event.preventDefault();
+    console.log('Logout button clicked');
+    onLogout();
+  };
 
   const showDrawer = () => {
     setOpen(true);
@@ -38,16 +29,43 @@ const LoginDrawer = ({ user, onChange, onSubmit }) => {
       <Button type="primary" onClick={showDrawer} style={{ position: 'absolute', top: 0, right: 0 }}>
         Click ME!
       </Button>
-      <AntDrawer title="Basic Drawer" onClose={onClose} visible={open}>
-        <form onSubmit={onSubmit}>     
-          <input type="text" placeholder="Add Player" name='Player' value={user.Player} onChange={onChange} />
-          <button type="submit">Add Player</button>
-        </form> 
-        <button onClick={login}>Login</button>
-        <button onClick={logout}>Logout</button>
+      <AntDrawer
+        title="Login Drawer"
+        placement="right"
+        onClose={onClose}
+        open={open}
+        footer={
+          <div style={{ textAlign: 'right' }}>
+            <Button onClick={onClose}>Close</Button>
+          </div>
+        }
+      >
+        <form onSubmit={onSubmit}>
+          <input 
+            type="text" 
+            placeholder="Add Player" 
+            name='Player' 
+            value={user?.Player || ''} 
+            onChange={onChange} 
+            style={{ marginBottom: '10px', padding: '5px' }}
+          />
+          <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
+            Add Player
+          </Button>
+        </form>
+        <Button type="default" onClick={handleLoginClick} style={{ marginTop: '10px' }}>
+          Login
+        </Button>
+        {isLoggedIn && (
+          <Button type="default" onClick={handleLogoutClick} style={{ marginTop: '10px' }}>
+            Logout
+          </Button>
+        )}
       </AntDrawer>
     </>
   );
 };
 
 export default LoginDrawer;
+
+

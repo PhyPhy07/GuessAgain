@@ -1,148 +1,174 @@
 import React, { useState, useEffect } from 'react';
 import Table from './components/TableComponent'; // Import your Table component
 import Gallery from './components/GalleryComponent'; // Import your Gallery component
- import { supabase } from './createClient'; // Adjust the path as needed
+import { supabase } from './createClient'; // Adjust the path as needed
 import LoginDrawer from './components/LoginDrawer';
 
-
-
 function App() {
-
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({
-    Player: '', Score: 0
-  });
+  const [user, setUser] = useState({ Player: '', Score: 0 });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [user2, setUser2] = useState(null);
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  async function fetchUsers() {
-    const { data, error } = await supabase.from('Team_Roster').select('*');
+  useEffect(() => {
+  const fetchSession = async () => {
+    const { data: session, error } = await supabase.auth.getSession();
     if (error) {
+      console.error('Error fetching session:', error);
+    } else {
+      console.log('Session data:', session);
+      setUser2(session?.user || null);
+    }
+  };
+
+  fetchSession();
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    setTimeout(async () => {
+      setUser2(session?.user || null);
+      // await on other Supabase function here
+      // this runs right after the callback has finished
+    }, 0);
+  });
+
+  // No need to unsubscribe since we're not storing the subscription
+}, []);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    const { data, error } = await supabase.from('Team_Roster').select('*');
+    setLoading(false);
+    if (error) {
+      setError('Error fetching users: ' + error.message);
       console.error('Error fetching users: ', error);
     } else {
       setUsers(data);
     }
-  }
+  };
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  };
 
-  function handleChange(event) {
-    setUser(prevFormData => {
-      return {
-        ...prevFormData,
-        [event.target.name]: event.target.value
-      };
-    });
-  }
-
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    await supabase
+    setLoading(true);
+    const { data, error } = await supabase
       .from('Team_Roster')
       .insert({ Player: user.Player, Score: 0 });
-    fetchUsers(); // Fetch users again to update the table
-  }
+    setLoading(false);
+    if (error) {
+      setError('Error creating user: ' + error.message);
+      console.error('Error creating user: ', error);
+    } else {
+      fetchUsers();
+    }
+  };
 
-async function createUsers(event) {
-  event.preventDefault();
-  const { data, error } = await supabase
-    .from('Team_Roster')
-    .insert({ Player: user.Player, Score: 0 });
-  if (error) {
-    console.error('Error creating user: ', error);
-  } else {
-    fetchUsers();
-  }
-}
+  const handleDelete = async (Player) => {
+    setLoading(true);
+    const { error } = await supabase
+      .from('Team_Roster')
+      .delete()
+      .eq('Player', Player);
+    setLoading(false);
+    if (error) {
+      setError('Error deleting row: ' + error.message);
+      console.error('Error deleting row: ', error);
+    } else {
+      fetchUsers();
+    }
+  };
 
-const handleDelete = async (Player) => {
-  const { error } = await supabase
-    .from('Team_Roster')
-    .delete()
-    .eq('Player', Player);
+  const handleScoreChange = async (Player, increment) => {
+    setLoading(true);
+    const { data: userData, error: userError } = await supabase
+      .from('Team_Roster')
+      .select('Score')
+      .eq('Player', Player);
+    if (userError) {
+      setError('Error fetching user: ' + userError.message);
+      console.error('Error fetching user: ', userError);
+      setLoading(false);
+      return;
+    }
 
-  if (error) {
-    console.error('Error deleting row: ', error);
-  } else {
-    fetchUsers(); 
-  }
-};
-const handleDecrement = async (Player) => {
-  // Fetch the current score
-  const { data: userData, error: userError } = await supabase
-    .from('Team_Roster')
-    .select('Score')
-    .eq('Player', Player);
+    const newScore = increment ? userData[0].Score + 1 : userData[0].Score - 1;
+    if (newScore < 0) {
+      setError('Score cannot go below zero');
+      console.log('Score cannot go below zero');
+      setLoading(false);
+      return;
+    }
 
-  if (userError) {
-    console.error('Error fetching user: ', userError);
-    return;
-  }
+    const { error: updateError } = await supabase
+      .from('Team_Roster')
+      .update({ Score: newScore })
+      .eq('Player', Player);
 
-  // Check if the score is already zero
-  if (userData[0].Score === 0) {
-    console.log('Score cannot go below zero');
-    return;
-  }
+    setLoading(false);
+    if (updateError) {
+      setError('Error updating score: ' + updateError.message);
+      console.error('Error updating score: ', updateError);
+    } else {
+      fetchUsers();
+    }
+  };
 
-  // Decrement the score
-  const newScore = userData[0].Score - 1;
+  const login = async () => {
+    try {
+      console.log('Attempting to login');
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        redirectTo: window.location.origin
+      });
+      if (error) {
+        console.error('Error logging in: ', error);
+      } else {
+        console.log('Login successful', data);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
 
-  // Update the score in the database
-  const { data, error } = await supabase
-    .from('Team_Roster')
-    .update({ Score: newScore })
-    .eq('Player', Player);
-
-  if (error) {
-    console.error('Error decrementing score: ', error);
-  } else {
-    // Update the local state
-    fetchUsers();
-  }
-};
-
-const handleIncrement = async (Player) => {
-  // Fetch the current score
-  const { data: userData, error: userError } = await supabase
-    .from('Team_Roster')
-    .select('Score')
-    .eq('Player', Player);
-
-  if (userError) {
-    console.error('Error fetching user: ', userError);
-    return;
-  }
-
-  // Increment the score
-  const newScore = userData[0].Score + 1;
-
-  // Update the score in the database
-  const { data, error } = await supabase
-    .from('Team_Roster')
-    .update({ Score: newScore })
-    .eq('Player', Player);
-
-  if (error) {
-    console.error('Error incrementing score: ', error);
-  } else {
-    // Update the local state
-    fetchUsers();
-  }
-};
-
+  const logout = async () => {
+    console.log('Attempting to logout');
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out: ', error);
+    } else {
+      console.log('Logout successful');
+      setUser(null); // Clear user state on logout
+    }
+  };
 
   return (
     <div className="App">
-     <Table data={users} handleDelete={handleDelete} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/> 
-      <LoginDrawer user={user} onChange={handleChange} onSubmit={createUsers} />
-      <Gallery /> 
+      {loading && <p>Loading...</p>}
+      {error && <p className="error">{error}</p>}
+      <Table
+        data={users}
+        handleDelete={handleDelete}
+        handleIncrement={(Player) => handleScoreChange(Player, true)}
+        handleDecrement={(Player) => handleScoreChange(Player, false)}
+        isLoggedIn={!!user2}
+      />
+      <LoginDrawer
+        user={user}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onLogin={login}
+        onLogout={logout}
+        isLoggedIn={!!user} 
+      />
+      <Gallery />
     </div>
   );
 }
-
 export default App;
