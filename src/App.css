@@ -81,7 +81,7 @@ th {
 }
 
 thead th {
-  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+  background-color: limegreen;
 }
 
 tbody tr:hover {
