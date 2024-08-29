@@ -152,6 +152,16 @@ function App() {
     <div className="App">
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
+<iframe 
+className='spotify'
+  style={{borderRadius: "12px"}} 
+  src="https://open.spotify.com/embed/playlist/3MR2J2enuLTLZvxMkHI32h?utm_source=generator&theme=0" 
+  height="152" 
+  frameBorder="0" 
+  allowFullScreen="" 
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+  loading="lazy">
+</iframe>
       <Table
         data={users}
         handleDelete={handleDelete}
