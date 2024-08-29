@@ -16,6 +16,11 @@ import theflaming from '../images/theflaming.jpg';
 import kiss from '../images/kiss.jpg';
 import pinkpony from '../images/pinkpony.jpg';
 import dj from '../images/dj.png';
+import shaw from '../images/shaw.jpeg';
+import jack from '../images/jack.jpeg';
+import lazer from '../images/lazer.jpeg';
+import jean from '../images/jean.jpeg';
+import homer from '../images/homer.png';
 
 const GalleryComponent = () => {
   const galleryContainerRef = useRef(null);
@@ -26,8 +31,8 @@ const GalleryComponent = () => {
     const indicator = indicatorRef.current;
 
     const galleryItems = galleryContainer.querySelectorAll(".gallery-item");
-    const defaultItemFlex = "0 1 20px";
-    const hoverItemFlex = "1 1 400px";
+    const defaultItemFlex = "0 1 40px";
+    const hoverItemFlex = "0 1 350px";
 
     const updateGalleryItems = () => {
       galleryItems.forEach((item) => {
@@ -68,7 +73,8 @@ const GalleryComponent = () => {
   return (
     <div className="gallery-container">
       <div ref={galleryContainerRef} className="gallery">
-      <div className="gallery-item"><img src={dj} alt="DJ" /></div>
+      <div className="gallery-item"><img src={dj} alt="DJ" /></div> 
+      <div className="gallery-item"><img src={homer} alt="Homer" /></div>
         <div className="gallery-item"><img src={brokenImg} alt="Broken" /></div>
         <div className="gallery-item"><img src={chetImg} alt="Chet" /></div>
         <div className="gallery-item"><img src={evansBlueImg} alt="Evans Blue" /></div>
@@ -82,6 +88,11 @@ const GalleryComponent = () => {
         <div className="gallery-item"><img src={theflaming} alt="The Flaming" /></div>
         <div className="gallery-item"><img src={kiss} alt="Kiss" /></div>
         <div className="gallery-item"><img src={pinkpony} alt="Pink Pony" /></div>
+        <div className="gallery-item"><img src={shaw} alt="Shaw" /></div>
+        <div className="gallery-item"><img src={jack} alt="Jack" /></div>
+        <div className="gallery-item"><img src={lazer} alt="Lazer" /></div>
+        <div className="gallery-item"><img src={jean} alt="Jean" /></div>
+       
      <div className="gallery-item"><img src={dj} alt="DJ" /></div>
       </div>
       <div ref={indicatorRef} className="indicator"></div>
