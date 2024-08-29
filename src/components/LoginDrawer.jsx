@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Drawer as AntDrawer } from 'antd';
 
-
-
 const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }) => {
   const [open, setOpen] = useState(false);
 
@@ -31,20 +29,37 @@ const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }
       <Button type="primary" onClick={showDrawer} style={{ position: 'absolute', top: 0, right: 0 }}>
         Click ME!
       </Button>
-      <AntDrawer title="Basic Drawer" onClose={onClose} visible={open}>
+      <AntDrawer
+        title="Login Drawer"
+        placement="right"
+        onClose={onClose}
+        open={open}
+        footer={
+          <div style={{ textAlign: 'right' }}>
+            <Button onClick={onClose}>Close</Button>
+          </div>
+        }
+      >
         <form onSubmit={onSubmit}>
-<input 
-  type="text" 
-  placeholder="Add Player" 
-  name='Player' 
-  value={user?.Player || ''} 
-  onChange={onChange} 
-/>
-          <button type="submit">Add Player</button>
-        </form> 
-        <button type="button" onClick={handleLoginClick}>Login</button>
+          <input 
+            type="text" 
+            placeholder="Add Player" 
+            name='Player' 
+            value={user?.Player || ''} 
+            onChange={onChange} 
+            style={{ marginBottom: '10px', padding: '5px' }}
+          />
+          <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>
+            Add Player
+          </Button>
+        </form>
+        <Button type="default" onClick={handleLoginClick} style={{ marginTop: '10px' }}>
+          Login
+        </Button>
         {isLoggedIn && (
-          <button type="button" onClick={handleLogoutClick}>Logout</button>
+          <Button type="default" onClick={handleLogoutClick} style={{ marginTop: '10px' }}>
+            Logout
+          </Button>
         )}
       </AntDrawer>
     </>
@@ -52,4 +67,5 @@ const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }
 };
 
 export default LoginDrawer;
+
 
