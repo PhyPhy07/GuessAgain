@@ -25,8 +25,8 @@ html, body {
   width: 100%;
   justify-content: left; /* Align items to the start */
   overflow: auto;
-  margin-top: -500px;
-  padding: 150px 150px 150px 0; /* top right bottom left */
+  margin-top: -530px;
+  padding: 150px 150px 150px 150px; /* top right bottom left */
 }
 
 .gallery-item {
@@ -50,12 +50,25 @@ html, body {
   transform: scale(2.1);
 }
 
+.spotify {
+  position: fixed;
+  top: 31%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  font-size: 1.5em;
+}
+
 .table-container {
   flex:1;
   position: absolute;
-  top: 70%;
+  top: 72%;
   left: 50%;
-  max-height: 600px;
+  max-height: 500px;
   overflow-y: scroll;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -63,11 +76,11 @@ html, body {
 }
 
 table {
-  width: 700px;
-  height: 400px;
+  width: 800px;
+  height: 450px;
   border-collapse: collapse;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
