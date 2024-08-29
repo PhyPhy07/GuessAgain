@@ -26,7 +26,7 @@ html, body {
   justify-content: left; /* Align items to the start */
   overflow: auto;
   margin-top: -500px;
-  padding: 150px 150px 150px 0; /* top right bottom left */
+  padding: 150px 150px 150px 150px; /* top right bottom left */
 }
 
 .gallery-item {
@@ -55,7 +55,7 @@ html, body {
   position: absolute;
   top: 70%;
   left: 50%;
-  max-height: 600px;
+  max-height: 500px;
   overflow-y: scroll;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -63,8 +63,8 @@ html, body {
 }
 
 table {
-  width: 700px;
-  height: 400px;
+  width: 800px;
+  height: 450px;
   border-collapse: collapse;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
