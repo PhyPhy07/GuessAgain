@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
 import { Button, Drawer as AntDrawer } from 'antd';
-import { supabase } from '../createClient';
 
-const LoginDrawer = ({ user, onChange, onSubmit , onLogin, onLogout}) => {
+
+
+const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }) => {
   const [open, setOpen] = useState(false);
 
-  const login = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github'
-    })
-    if (error) {
-      console.error('Error logging in: ', error);
-    } else {
-      console.log('Login successful');
-    }
-  }  
+  const handleLoginClick = (event) => {
+    event.preventDefault();
+    console.log('Login button clicked');
+    onLogin();
+  };
 
-  const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error logging out: ', error);
-    } else {
-      console.log('Logout successful');
-    } 
-  }
+  const handleLogoutClick = (event) => {
+    event.preventDefault();
+    console.log('Logout button clicked');
+    onLogout();
+  };
 
   const showDrawer = () => {
     setOpen(true);
@@ -39,15 +32,24 @@ const LoginDrawer = ({ user, onChange, onSubmit , onLogin, onLogout}) => {
         Click ME!
       </Button>
       <AntDrawer title="Basic Drawer" onClose={onClose} visible={open}>
-        <form onSubmit={onSubmit}>     
-          <input type="text" placeholder="Add Player" name='Player' value={user.Player} onChange={onChange} />
+        <form onSubmit={onSubmit}>
+<input 
+  type="text" 
+  placeholder="Add Player" 
+  name='Player' 
+  value={user?.Player || ''} 
+  onChange={onChange} 
+/>
           <button type="submit">Add Player</button>
         </form> 
-        <button onClick={onLogin}>Login</button>
-        <button onClick={onLogout}>Logout</button>
+        <button type="button" onClick={handleLoginClick}>Login</button>
+        {isLoggedIn && (
+          <button type="button" onClick={handleLogoutClick}>Logout</button>
+        )}
       </AntDrawer>
     </>
   );
 };
 
 export default LoginDrawer;
+
