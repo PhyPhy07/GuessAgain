@@ -7,7 +7,8 @@
 html, body {
   width: 100vw;
   height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Hide scrollbars */
+  overflow: scroll;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
   background: #0f0f0f;
 }
 
