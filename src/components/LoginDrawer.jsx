@@ -38,7 +38,7 @@ const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }
     ball.classList.add("shake");
     // Remove the shake class after it stops shaking
     setTimeout(() => { ball.classList.remove("shake"); }, 1500);
-    // Call the fortune function to get your fortune only after 2sec
+    
     setTimeout(() => { getFortune(); }, 1500);
   };
   const getFortune = () => {

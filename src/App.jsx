@@ -138,7 +138,7 @@ function App() {
   };
 
   const logout = async () => {
-    console.log('Attempting to logout');
+    console.log('Attempting to logout');//attempting to logout
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error('Error logging out: ', error);
