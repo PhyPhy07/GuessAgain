@@ -113,7 +113,7 @@ const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }
         Click ME!
       </Button>
       <AntDrawer
-        title="Login Drawer"
+        title="Ask Yourself: Am I Shane? If not, then login isn't for you!"
         placement="right"
         onClose={onClose}
         open={open}
