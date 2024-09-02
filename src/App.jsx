@@ -4,6 +4,7 @@ import Gallery from './components/GalleryComponent'; // Import your Gallery comp
 import { supabase } from './createClient'; // Adjust the path as needed
 import LoginDrawer from './components/LoginDrawer';
 
+
 function App() {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState({ Player: '', Score: 0 });
