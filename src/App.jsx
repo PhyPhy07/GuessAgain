@@ -1,92 +1,185 @@
-import { useRef, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Table from './components/TableComponent'; // Import your Table component
+import Gallery from './components/GalleryComponent'; // Import your Gallery component
+import { supabase } from './createClient'; // Adjust the path as needed
+import LoginDrawer from './components/LoginDrawer';
 
-// Import images from the src/assets folder
-import bakamitaiImg from './assets/bakamitai.jpg';
-import brokenImg from './assets/broken.jpeg';
-import chetImg from './assets/chet.jpg';
-import evansBlueImg from './assets/evansblue.jpg';
-import guardiansImg from './assets/gaurdians.jpg';
-import glassanimalImg from './assets/glassanimal.jpeg';
-import hotelpoolsImg from './assets/hotelpools.jpg';
-import iJustDiedImg from './assets/I-Just-Died-In-Your-Arms.jpg';
-import rhythmDancerImg from './assets/rhythm is a dancer.jpeg';
-import sawyerImg from './assets/sawyer.jpeg';
 
 function App() {
-  const galleryContainerRef = useRef(null);
-  const indicatorRef = useRef(null);
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({ Player: '', Score: 0 });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [user2, setUser2] = useState(null);
 
   useEffect(() => {
-    const galleryContainer = galleryContainerRef.current;
-    const indicator = indicatorRef.current;
-
-    const galleryItems = galleryContainer.querySelectorAll(".gallery-item");
-    const defaultItemFlex = "0 1 20px";
-    const hoverItemFlex = "1 1 400px";
-
-    // Update gallery items flex style based on hover state
-    const updateGalleryItems = () => {
-      galleryItems.forEach((item) => {
-        const isHovered = item.getAttribute('data-hovered') === 'true';
-        item.style.flex = isHovered ? hoverItemFlex : defaultItemFlex;
-      });
-    };
-
-    // Set initial hover state for the first item
-    galleryItems[0].setAttribute('data-hovered', 'true');
-    updateGalleryItems();
-
-    // Event handler for mouse enter
-    const handleMouseEnter = (item) => () => {
-      galleryItems.forEach((otherItem) => {
-        otherItem.setAttribute('data-hovered', otherItem === item ? 'true' : 'false');
-      });
-      updateGalleryItems();
-    };
-
-    // Attach mouse enter event listeners
-    galleryItems.forEach((item) => {
-      item.addEventListener("mouseenter", handleMouseEnter(item));
-    });
-
-    // Event handler for mouse move
-    const handleMouseMove = (e) => {
-      const rect = galleryContainer.getBoundingClientRect();
-      indicator.style.left = `${e.clientX - rect.left}px`;
-    };
-
-    // Attach mouse move event listener
-    galleryContainer.addEventListener("mousemove", handleMouseMove);
-
-    // Cleanup event listeners on component unmount
-    return () => {
-      galleryItems.forEach((item) => {
-        item.removeEventListener("mouseenter", handleMouseEnter(item));
-      });
-      galleryContainer.removeEventListener("mousemove", handleMouseMove);
-    };
+    fetchUsers();
   }, []);
 
+  useEffect(() => {
+  const fetchSession = async () => {
+    const { data: session, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error('Error fetching session:', error);
+    } else {
+      console.log('Session data:', session);
+      setUser2(session?.user || null);
+    }
+  };
+
+  fetchSession();
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    setTimeout(async () => {
+      setUser2(session?.user || null);
+      // await on other Supabase function here
+      // this runs right after the callback has finished
+    }, 0);
+  });
+
+  // No need to unsubscribe since we're not storing the subscription
+}, []);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    const { data, error } = await supabase.from('Team_Roster').select('*');
+    setLoading(false);
+    if (error) {
+      setError('Error fetching users: ' + error.message);
+      console.error('Error fetching users: ', error);
+    } else {
+      setUsers(data);
+    }
+  };
+
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('Team_Roster')
+      .insert({ Player: user.Player, Score: 0 });
+    setLoading(false);
+    if (error) {
+      setError('Error creating user: ' + error.message);
+      console.error('Error creating user: ', error);
+    } else {
+      fetchUsers();
+    }
+  };
+
+  const handleDelete = async (Player) => {
+    setLoading(true);
+    const { error } = await supabase
+      .from('Team_Roster')
+      .delete()
+      .eq('Player', Player);
+    setLoading(false);
+    if (error) {
+      setError('Error deleting row: ' + error.message);
+      console.error('Error deleting row: ', error);
+    } else {
+      fetchUsers();
+    }
+  };
+
+  const handleScoreChange = async (Player, increment) => {
+    setLoading(true);
+    const { data: userData, error: userError } = await supabase
+      .from('Team_Roster')
+      .select('Score')
+      .eq('Player', Player);
+    if (userError) {
+      setError('Error fetching user: ' + userError.message);
+      console.error('Error fetching user: ', userError);
+      setLoading(false);
+      return;
+    }
+
+    const newScore = increment ? userData[0].Score + 1 : userData[0].Score - 1;
+    if (newScore < 0) {
+      setError('Score cannot go below zero');
+      console.log('Score cannot go below zero');
+      setLoading(false);
+      return;
+    }
+
+    const { error: updateError } = await supabase
+      .from('Team_Roster')
+      .update({ Score: newScore })
+      .eq('Player', Player);
+
+    setLoading(false);
+    if (updateError) {
+      setError('Error updating score: ' + updateError.message);
+      console.error('Error updating score: ', updateError);
+    } else {
+      fetchUsers();
+    }
+  };
+
+  const login = async () => {
+    try {
+      console.log('Attempting to login');
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        redirectTo: window.location.origin
+      });
+      if (error) {
+        console.error('Error logging in: ', error);
+      } else {
+        console.log('Login successful', data);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+  const logout = async () => {
+    console.log('Attempting to logout');
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out: ', error);
+    } else {
+      console.log('Logout successful');
+      setUser(null); // Clear user state on logout
+    }
+  };
+
   return (
-    <div>
-      <div className="container">
-        <div ref={galleryContainerRef} className="gallery">
-          <div className="gallery-item"><img src={bakamitaiImg} alt="Baka Mitai" /></div>
-          <div className="gallery-item"><img src={brokenImg} alt="Broken" /></div>
-          <div className="gallery-item"><img src={chetImg} alt="Chet" /></div>
-          <div className="gallery-item"><img src={evansBlueImg} alt="Evans Blue" /></div>
-          <div className="gallery-item"><img src={guardiansImg} alt="Guardians" /></div>
-          <div className="gallery-item"><img src={glassanimalImg} alt="Glass Animals" /></div>
-          <div className="gallery-item"><img src={hotelpoolsImg} alt="Hotel Pools" /></div>
-          <div className="gallery-item"><img src={iJustDiedImg} alt="I Just Died In Your Arms" /></div>
-          <div className="gallery-item"><img src={rhythmDancerImg} alt="Rhythm Is a Dancer" /></div>
-          <div className="gallery-item"><img src={sawyerImg} alt="Sawyer" /></div>
-        </div>
-        <div ref={indicatorRef} className="indicator"></div>
-      </div>
+    <div className="App">
+      {loading && <p>Loading...</p>}
+      {error && <p className="error">{error}</p>}
+<iframe 
+className='spotify'
+  style={{borderRadius: "12px"}} 
+  src="https://open.spotify.com/embed/playlist/3MR2J2enuLTLZvxMkHI32h?utm_source=generator&theme=0" 
+  height="152" 
+  frameBorder="0" 
+  allowFullScreen="" 
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+  loading="lazy">
+</iframe>
+      <Table
+        data={users}
+        handleDelete={handleDelete}
+        handleIncrement={(Player) => handleScoreChange(Player, true)}
+        handleDecrement={(Player) => handleScoreChange(Player, false)}
+        isLoggedIn={!!user2}
+      />
+      <LoginDrawer
+        user={user}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onLogin={login}
+        onLogout={logout}
+        isLoggedIn={!!user} 
+      />
+      <Gallery />
     </div>
   );
 }
-
 export default App;
