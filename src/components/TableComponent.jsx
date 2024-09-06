@@ -53,10 +53,7 @@ function TableComponent({ data, handleDelete, handleDecrement, handleIncrement, 
 
   const columns = React.useMemo(
     () => [
-      {
-        Header: "ID",
-        accessor: "id",
-      },
+     
       {
         Header: "Player",
         accessor: "Player",
