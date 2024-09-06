@@ -54,7 +54,7 @@ const handleLogoutClick = async (event) => {
       "The Safety Dance - Men Without Hats", "Major Tom (Coming Home) - Peter Schilling", "She's So High - Tal Bachman",
       "I'm Gonna Be (500 Miles) - The Proclaimers", "No Rain - Blind Melon", "Creep - Radiohead",
       "Nothing Compares 2 U - Sinéad O'Connor", "Spice Up Your Life - Spice Girls", "The Wild Boys - Duran Duran",
-      "Funky Town - Lipps Inc.", "The Sign - Ace of Base", "I Touch Myself - Divinyls",
+      "Funky Town - Lipps Inc.", "The Sign - Ace of Base",
       "How Bizarre - OMC", "Don't Speak - No Doubt", "Torn - Natalie Imbruglia",
       "Unbelievable - EMF", "Groove Is in the Heart - Deee-Lite", "I Want You Back - The Jackson 5",
       "Bust A Move - Young MC", "Bizarre Love Triangle - New Order", "Pump Up The Jam - Technotronic",
