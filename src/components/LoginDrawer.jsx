@@ -3,6 +3,7 @@ import { Button, Drawer as AntDrawer } from 'antd';
 import eightBallImage from '../images/eightBall.png';
 import '../components/LoginDrawer.css';
 
+
 const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }) => {
   const [open, setOpen] = useState(false);
 
@@ -12,11 +13,14 @@ const LoginDrawer = ({ user, onChange, onSubmit, onLogin, onLogout, isLoggedIn }
     onLogin();
   };
 
-  const handleLogoutClick = (event) => {
-    event.preventDefault();
-    console.log('Logout button clicked');
-    onLogout();
-  };
+
+
+const handleLogoutClick = async (event) => {
+  event.preventDefault();
+  console.log('Logout button clicked');
+  await onLogout();
+  window.location.href = '/'; // Redirect to the starting page
+};
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
