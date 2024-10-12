@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",   
+    "build": "vite build",
     "deploy": "gh-pages -d build",
     "homepage": "https://phyphy07.github.io/GuessAgain/",
     "lint": "eslint .",
@@ -26,6 +26,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "env-cmd": "^10.1.0",
     "eslint": "^9.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
