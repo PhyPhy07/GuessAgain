@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Table from './components/TableComponent'; // Import your Table component
-import Gallery from './components/GalleryComponent'; // Import your Gallery component
-import { supabase } from './createClient'; // Adjust the path as needed
+import Table from './components/TableComponent'; 
+import Gallery from './components/GalleryComponent';
+import { supabase } from './createClient'; 
 import LoginDrawer from './components/LoginDrawer';
 
 
@@ -32,12 +32,11 @@ function App() {
   supabase.auth.onAuthStateChange((event, session) => {
     setTimeout(async () => {
       setUser2(session?.user || null);
-      // await on other Supabase function here
-      // this runs right after the callback has finished
+  
     }, 0);
   });
 
-  // No need to unsubscribe since we're not storing the subscription
+  
 }, []);
 
   const fetchUsers = async () => {

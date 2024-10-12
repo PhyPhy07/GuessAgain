@@ -77,13 +77,13 @@ const handleLogoutClick = async (event) => {
         Click ME!
       </Button>
       <AntDrawer
-        title="Ask Yourself: Am I Shane? If not, then login isn't for you!"
+        title="Ask Yourself: Am I Shane? If not, then login isn't for you! *Sad Panda*"
         placement="right"
         onClose={onClose}
         open={open}
         footer={
           <div style={{ textAlign: 'right' }}>
-            <Button onClick={onClose}>Close</Button>
+            <Button onClick={onClose}>Close ME</Button>
           </div>
         }
       >
