@@ -4,9 +4,9 @@ import { useTable } from 'react-table';
 // Helper function to get the medal emoji
 const getMedalEmoji = (rank) => {
   switch (rank) {
-    case 1: return '🥇'; // Gold
-    case 2: return '🥈'; // Silver
-    case 3: return '🥉'; // Bronze
+    case 1: return '🥇'; 
+    case 2: return '🥈'; 
+    case 3: return '🥉'; 
     default: return '';
   }
 };

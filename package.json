@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "homepage": "https://phyphy07.github.io/GuessAgain/",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build"
+    
+    "predeploy": "env-cmd -f .env.production npm run build"
   },
   "dependencies": {
     "@supabase/auth-js": "^2.64.4",
