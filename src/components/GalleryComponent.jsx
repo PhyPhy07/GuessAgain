@@ -21,6 +21,7 @@ import jack from '../images/jack.jpeg';
 import lazer from '../images/lazer.jpeg';
 import jean from '../images/jean.jpeg';
 import homer from '../images/homer.png';
+import vinyl from '../images/vinyl.jpeg';
 
 const GalleryComponent = () => {
   const galleryContainerRef = useRef(null);
@@ -92,7 +93,7 @@ const GalleryComponent = () => {
         <div className="gallery-item"><img src={jack} alt="Jack" /></div>
         <div className="gallery-item"><img src={lazer} alt="Lazer" /></div>
         <div className="gallery-item"><img src={jean} alt="Jean" /></div>
-       
+       < div className="gallery-item"><img src={vinyl} alt="Vinyl" /></div>
      <div className="gallery-item"><img src={dj} alt="DJ" /></div>
       </div>
       <div ref={indicatorRef} className="indicator"></div>
