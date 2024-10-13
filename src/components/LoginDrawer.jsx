@@ -34,11 +34,11 @@ const handleLogoutClick = async (event) => {
       messageText.remove();
     }
 
-    // Shake the ball
+  
     ball.classList.add('shake');
     setTimeout(() => ball.classList.remove('shake'), 1500);
 
-    // Get and display a new fortune
+    
     setTimeout(getFortune, 1500);
   };
 
