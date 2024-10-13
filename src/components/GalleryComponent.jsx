@@ -93,7 +93,7 @@ const GalleryComponent = () => {
         <div className="gallery-item"><img src={jack} alt="Jack" /></div>
         <div className="gallery-item"><img src={lazer} alt="Lazer" /></div>
         <div className="gallery-item"><img src={jean} alt="Jean" /></div>
-        <div className="gallery-item"><img src={spider} alt="Spider" /></div>npm install --save-dev env-cmd
+        <div className="gallery-item"><img src={spider} alt="Spider" /></div>
        < div className="gallery-item"><img src={vinyl} alt="Vinyl" /></div>
      <div className="gallery-item"><img src={dj} alt="DJ" /></div>
       </div>
