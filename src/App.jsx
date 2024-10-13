@@ -146,7 +146,8 @@ function App() {
       console.error('Error logging out: ', error);
     } else {
       console.log('Logout successful');
-      setUser(null); // Clear user state on logout
+      setUser(null); 
+      window.location.href = 'https://phyphy07.github.io/GuessAgain/'; 
     }
   };
 
