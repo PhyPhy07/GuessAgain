@@ -19,7 +19,7 @@ const handleLogoutClick = async (event) => {
   event.preventDefault();
   console.log('Logout button clicked');
   await onLogout();
-  window.location.href = '/'; // Redirect to the starting page
+ window.location.href = 'https://phyphy07.github.io/GuessAgain/'
 };
 
   const showDrawer = () => setOpen(true);

@@ -125,7 +125,9 @@ function App() {
       console.log('Attempting to login');
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
-        redirectTo: window.location.origin
+        options: {
+          redirectTo: 'https://phyphy07.github.io/GuessAgain/',
+      }
       });
       if (error) {
         console.error('Error logging in: ', error);
@@ -144,7 +146,8 @@ function App() {
       console.error('Error logging out: ', error);
     } else {
       console.log('Logout successful');
-      setUser(null); // Clear user state on logout
+      setUser(null); 
+      window.location.href = 'https://phyphy07.github.io/GuessAgain/'; 
     }
   };
 
