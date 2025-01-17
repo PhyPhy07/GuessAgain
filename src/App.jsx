@@ -155,8 +155,16 @@ function App() {
     <div className="App">
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}
-
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/07DuMWJPG136zDlzyM8EgG?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe 
+className='spotify'
+  style={{borderRadius: "12px"}} 
+  src="https://open.spotify.com/embed/playlist/07DuMWJPG136zDlzyM8EgG?utm_source=generator&theme=0"
+  height="152" 
+  frameBorder="0" 
+  allowFullScreen="" 
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+  loading="lazy">
+</iframe>
 
       <Table
         data={users}
